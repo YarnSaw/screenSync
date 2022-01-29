@@ -2,6 +2,7 @@ const prodServer = 'https://yarnsawe.dev/screenSync';
 
 var socket;
 
+// Instantiate a new socket connection
 function startSocket()
 {
   socket = io.connect(prodServer || 'http://localhost:8080');
@@ -9,37 +10,36 @@ function startSocket()
   socket.on('message', handleSocketMessage);
 }
 
-document.onmousemove = handleMouseMove;
-function handleMouseMove(event)
-{
-  console.log(event);
-}
 
 chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
   const request = req.request;
+  // ask server to create a new code for users to join. Create a new socketio connection if none already exist.
   if (request === 'generateCode'){
     if(!socket) {
       startSocket();
     }
     socket.send({request: 'generateKey'})
   }
+  // End the socket connection. No more connection.
   if (request === 'endProgram')
   {
     socket.close();
     socket = false;
     chrome.runtime.sendMessage({request: 'programEnded'});
   }
+  // Join someone else's session. Create a new socketio connection if non exist.
   if (request === 'joinSession'){
     if (!socket){
       startSocket();
     }
     socket.send({request: 'joinSession', payload: {key: req.payload.code}});
   }
+  // Events to go to connected users.
   if (request === 'event')
     socket.send(req);
 })
 
-
+// Handle responses/events coming in from the server
 function handleSocketMessage(message)
 {
   switch(message.request)
