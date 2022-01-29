@@ -44,11 +44,11 @@ chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
     document.getElementById('inputCode').disabled = true;
     document.getElementById('submitCode').disabled = true;
   }
-  if (request == 'joinSessionSuccess')
-    document.write('<p>Joined a session<\p>');
-    alert("The Sync Has Connected Successfully")
+  if (request == 'joinSessionSuccess'){
+    alert("The Sync Has Connected Successfully.")
+  }
   if (request == 'joinSessionFailed')
-    document.write('<p>Failed to join a session<\p>');
+    alert("The Sync Has Failed. Please Try Again.")
   if (request == 'programEnded'){
     document.getElementById("codeMessage").innerHTML = "";
     document.getElementById('inputCode').disabled = false;
