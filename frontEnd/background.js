@@ -3,6 +3,7 @@ const prodServer = 'https://yarnsawe.dev/screenSync';
 var socket;
 var connectedToOther = false;
 var frontEndStorage = {};
+frontEndStorage.status = "No Connection";
 var urlPreference = false; 
 
 // Instantiate a new socket connection
@@ -29,6 +30,8 @@ chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
       startSocket();
     }
     socket.send({request: 'generateKey'})
+    frontEndStorageStorage.status = "Pending";
+    console.log(frontEndStorage.status)
   }
   // End the socket connection. No more connection.
   if (request === 'endProgram')
@@ -39,6 +42,9 @@ chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
     connectedToOther = false;
     chrome.runtime.sendMessage({request: 'programEnded'});
     delete frontEndStorage.codeKey 
+    frontEndStorageStorage.status = "No Connection";
+    console.log(frontEndStorage.status)
+
   }
   // Join someone else's session. Create a new socketio connection if non exist.
   if (request === 'joinSession'){
@@ -46,6 +52,8 @@ chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
       startSocket();
     }
     socket.send({request: 'joinSession', payload: {key: req.payload.code}});
+    frontEndStorageStorage.status = "Connected";
+    console.log(frontEndStorage.status)
   }
   // Events to go to connected users.
   if (request === 'event' && connectedToOther)

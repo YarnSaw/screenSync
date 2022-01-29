@@ -30,6 +30,7 @@ function onLoad()
   if (background_script.urlPreference){
     document.getElementById("urlPermissions").checked = true;
   }
+  document.getElementById("connectionStatus").innerHTML = "Connection: "+background_script.frontEndStorage.status;  
 
 }
 
