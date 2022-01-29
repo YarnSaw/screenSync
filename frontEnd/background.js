@@ -74,12 +74,12 @@ function handleSocketMessage(message)
       break;
     case 'joinSessionSucceeded':
       console.log("Successfully joined a session");
-      chrome.runtime.sendMessage({request: 'joinSessionSucceeded'});
+      chrome.runtime.sendMessage({request: 'joinSessionSuccess'});
       connectedToOther = true;
       break;
     case 'joinSessionFailed':
       console.log("Failed to join session");
-      chrome.runtime.sendMessage({request: 'joinSessionFailed'});
+      chrome.runtime.sendMessage({request: 'joinSessionFailure'});
       break;
     case 'event':
       const ev = message.payload;

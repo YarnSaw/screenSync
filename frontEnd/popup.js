@@ -44,9 +44,10 @@ chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
     document.getElementById('inputCode').disabled = true;
     document.getElementById('submitCode').disabled = true;
   }
-  if (request == 'joinSessionSucceeded')
+  if (request == 'joinSessionSuccess')
     document.write('<p>Joined a session<\p>');
-  if (request == 'joinSessionSucceeded')
+    alert("The Sync Has Connected Successfully")
+  if (request == 'joinSessionFailed')
     document.write('<p>Failed to join a session<\p>');
   if (request == 'programEnded'){
     document.getElementById("codeMessage").innerHTML = "";
