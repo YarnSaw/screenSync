@@ -1,0 +1,1 @@
+chrome.runtime.sendMessage({request: 'windowInitSize', payload: { height: window.innerHeight, width: window.innerWidth }});

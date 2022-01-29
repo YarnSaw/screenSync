@@ -72,7 +72,27 @@ ConnectionManager.prototype.handleSocketMessages = function ConnectionManager$Ha
         otherSocket.send(message);
       }
       break;
+    case 'windowInitSize':
+    case 'windowResize':
+      socket.windowSize = message.payload;
+      if (socket.connectedSockets.length)
+      {
+        if (socket.connectedSockets.every((skt) => skt.windowSize))
+          updateWindowSize(socket);
+      } 
+      break;
     default:
       console.warn("Got unknown message", message.request, message.payload);
   }
+}
+
+function updateWindowSize(socket)
+{
+  const sockets = socket.connectedSockets.concat([socket]);
+  const height = Math.min(...(sockets.map(skt => skt.windowSize.height)));
+  const width = Math.min(...(sockets.map(skt => skt.windowSize.width)));
+  sockets.forEach(skt => {
+    skt.windowSize = {width, height};
+    skt.send({request: 'windowSize', payload: {width, height}});
+  });
 }
