@@ -6,6 +6,7 @@ var connectedToOther = false;
 // Instantiate a new socket connection
 function startSocket()
 {
+  console.trace();
   socket = io.connect(prodServer || 'http://localhost:8080');
   socket.on('connect', () => {console.log("connected to server")})
   socket.on('message', handleSocketMessage);
@@ -53,6 +54,13 @@ function handleSocketMessage(message)
     case 'newUser':
       console.log("A new user joined the session");
       chrome.runtime.sendMessage({request: 'newUser'});
+      // When a new user joins, we send them an event containing any and all relevant information for them to initialize their page
+      // To the state of the session host
+      chrome.tabs.query({active: true, lastFocusedWindow: true}, (tabs) => {
+        let url = tabs[0].url;
+        console.log(url)
+        socket.send({request: 'event', payload: {eventName: 'newUserInfo', url}})
+      });
       connectedToOther = true;
       break;
     case 'joinSessionSucceeded':
@@ -65,7 +73,15 @@ function handleSocketMessage(message)
       chrome.runtime.sendMessage({request: 'joinSessionFailed'});
       break;
     case 'event':
-      console.log("Got an event", message.payload)
+      const ev = message.payload;
+      switch(ev.eventName)
+      {
+        case 'newUserInfo':
+          chrome.tabs.update(undefined, {url: ev.url});
+          break;
+        default:
+          console.log("Got an unhandled event", message.payload)
+      }
       break
     default:
       console.warn("Got unknown message", message.request, message.payload);
