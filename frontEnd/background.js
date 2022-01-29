@@ -4,10 +4,14 @@ socket.on('message', handleSocketMessage);
 
 
 
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  if (request.action == 'test')
+chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
+  const request = req.request;
+  if (request == 'generateCode')
     socket.send({request: 'generateKey'})
-
+  if (request == 'endProgram')
+    socket.close();
+  if (request == 'joinSession')
+    socket.send({request: 'joinSession', payload: {key: req.payload.code}});
 })
 
 
