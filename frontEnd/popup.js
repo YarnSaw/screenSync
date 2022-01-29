@@ -8,6 +8,11 @@ function onLoad()
     const code = document.querySelector('#inputCode').value;
     chrome.runtime.sendMessage({request: 'joinSession', payload: {code}});
   });
+
+
+  chrome.tabs.executeScript(null, {
+    file: "getPageEvents.js",
+  });
 }
 window.onload = onLoad;
 
