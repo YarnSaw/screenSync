@@ -2,14 +2,12 @@
 
 function onLoad()
 {
-  const button = document.querySelector('#syncEnd');
-  button.addEventListener('click', func);
-  function func()
-  {
-    chrome.runtime.sendMessage({
-      request : "endProgram"
-    });
-  }
+  document.querySelector('#syncEnd').addEventListener('click', () => chrome.runtime.sendMessage({request : "endProgram"}));
+  document.querySelector('#generateCode').addEventListener('click', () => chrome.runtime.sendMessage({request : "generateCode"}));
+  document.querySelector('#submitCode').addEventListener('click', () => {
+    const code = document.querySelector('#inputCode').value;
+    chrome.runtime.sendMessage({request: 'joinSession', payload: {code}});
+  });
 }
 window.onload = onLoad;
 

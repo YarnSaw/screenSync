@@ -1,4 +1,6 @@
-var socket = io.connect('http://localhost:8080');
+const prodServer = 'https://yarnsawe.dev/screenSync';
+
+var socket = io.connect(prodServer || 'http://localhost:8080');
 socket.on('connect', () => {console.log("connected to server")})
 socket.on('message', handleSocketMessage);
 
@@ -27,12 +29,15 @@ function handleSocketMessage(message)
       chrome.runtime.sendMessage({request: 'generatedCode', payload: {code: message.payload.key}});
       break
     case 'newUser':
+      console.log("A new user joined the session");
       chrome.runtime.sendMessage({request: 'newUser'});
       break;
     case 'joinSessionSucceeded':
+      console.log("Successfully joined a session");
       chrome.runtime.sendMessage({request: 'joinSessionSucceeded'});
       break;
     case 'joinSessionFailed':
+      console.log("Failed to join session");
       chrome.runtime.sendMessage({request: 'joinSessionFailed'});
       break;
     case 'event':
