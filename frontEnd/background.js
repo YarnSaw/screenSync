@@ -7,11 +7,17 @@ var frontEndStorage = {};
 // Instantiate a new socket connection
 function startSocket()
 {
-  console.trace();
   socket = io.connect(prodServer || 'http://localhost:8080');
   socket.on('connect', () => {console.log("connected to server")})
   socket.on('message', handleSocketMessage);
+  // Seed the server with the size of our viewport, used for ensure both sides have same viewport
+  chrome.tabs.executeScript(null, { file: "getInitialScreenSize.js", });
 }
+// Special message that happens on socket init.
+chrome.runtime.onMessage.addListener(function(req, sender, sendResponse) {
+  if (req.request === 'windowInitSize')
+    socket.send({request: 'windowInitSize', payload: req.payload})
+})
 
 
 chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
@@ -43,6 +49,9 @@ chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
   // Events to go to connected users.
   if (request === 'event' && connectedToOther)
     socket.send(req);
+  
+  if (request === 'windowResize' && connectedToOther)
+      socket.send(req);
 })
 
 // Handle responses/events coming in from the server
@@ -75,6 +84,11 @@ function handleSocketMessage(message)
     case 'joinSessionFailed':
       console.log("Failed to join session");
       chrome.runtime.sendMessage({request: 'joinSessionFailed'});
+      break;
+    case 'windowSize':
+      console.log("Got new event to change window size", message.payload)
+      chrome.storage.local.set({ windowSize: message.payload });
+      chrome.tabs.executeScript(null, { file: "updateScreenSize.js", });
       break;
     case 'event':
       const ev = message.payload;
