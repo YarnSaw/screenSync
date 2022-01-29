@@ -22,6 +22,8 @@ function onLoad()
   });
   if (background_script.frontEndStorage.codeKey){
     document.getElementById("codeMessage").innerHTML = "Your code is: "+background_script.frontEndStorage.codeKey;
+    document.getElementById('inputCode').disabled = true;
+    document.getElementById('submitCode').disabled = true;
   }
 
 }
@@ -34,6 +36,8 @@ chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
   // Handle all the possible events from the backend to the popup that need to be displayed.
   if (request == 'generatedCode'){
     document.getElementById("codeMessage").innerHTML = "Your code is: "+background_script.frontEndStorage.codeKey;
+    document.getElementById('inputCode').disabled = true;
+    document.getElementById('submitCode').disabled = true;
   }
   if (request == 'joinSessionSucceeded')
     document.write('<p>Joined a session<\p>');
@@ -41,5 +45,7 @@ chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
     document.write('<p>Failed to join a session<\p>');
   if (request == 'programEnded'){
     document.getElementById("codeMessage").innerHTML = "";
+    document.getElementById('inputCode').disabled = false;
+    document.getElementById('submitCode').disabled = false;
   }
 })

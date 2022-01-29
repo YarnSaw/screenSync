@@ -25,10 +25,12 @@ chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
   // End the socket connection. No more connection.
   if (request === 'endProgram')
   {
-    socket.close();
+    if (socket)
+      socket.close();
     socket = false;
     connectedToOther = false;
     chrome.runtime.sendMessage({request: 'programEnded'});
+    delete frontEndStorage.codeKey 
   }
   // Join someone else's session. Create a new socketio connection if non exist.
   if (request === 'joinSession'){
