@@ -3,6 +3,7 @@ const prodServer = 'https://yarnsawe.dev/screenSync';
 var socket;
 var connectedToOther = false;
 var frontEndStorage = {};
+var urlPreference = false; 
 
 // Instantiate a new socket connection
 function startSocket()
@@ -43,6 +44,10 @@ chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
   // Events to go to connected users.
   if (request === 'event' && connectedToOther)
     socket.send(req);
+
+  if (request == 'declareURLpreference'){
+    urlPreference = !urlPreference;
+  }
 })
 
 // Handle responses/events coming in from the server

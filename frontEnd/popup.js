@@ -1,5 +1,6 @@
 var background_script = chrome.extension.getBackgroundPage();
 
+
 /**
  * Set up event listeners for various key events when the popup is loaded
  */
@@ -12,6 +13,7 @@ function onLoad()
     const code = document.querySelector('#inputCode').value;
     chrome.runtime.sendMessage({request: 'joinSession', payload: {code}});
   });
+  document.querySelector('#urlPermissions').addEventListener('change', () => chrome.runtime.sendMessage({request : "declareURLpreference"}));
 
   // Begin executing the getPageEvents.js. Due to how this script is being executed
   // (using chrome.tabs.executeScript), it is executed within the context of the web
@@ -24,6 +26,9 @@ function onLoad()
     document.getElementById("codeMessage").innerHTML = "Your code is: "+background_script.frontEndStorage.codeKey;
     document.getElementById('inputCode').disabled = true;
     document.getElementById('submitCode').disabled = true;
+  }
+  if (background_script.urlPreference){
+    document.getElementById("urlPermissions").checked = true;
   }
 
 }
