@@ -2,13 +2,12 @@
 
 function onLoad()
 {
-  const button = document.querySelector('#test');
+  const button = document.querySelector('#syncEnd');
   button.addEventListener('click', func);
   function func()
   {
     chrome.runtime.sendMessage({
-      action: "test",
-      source: "stuff",
+      request : "endProgram"
     });
   }
 }
