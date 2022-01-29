@@ -1,6 +1,7 @@
 const prodServer = 'https://yarnsawe.dev/screenSync';
 
 var socket;
+var connectedToOther = false;
 
 // Instantiate a new socket connection
 function startSocket()
@@ -25,6 +26,7 @@ chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
   {
     socket.close();
     socket = false;
+    connectedToOther = false;
     chrome.runtime.sendMessage({request: 'programEnded'});
   }
   // Join someone else's session. Create a new socketio connection if non exist.
@@ -35,7 +37,7 @@ chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
     socket.send({request: 'joinSession', payload: {key: req.payload.code}});
   }
   // Events to go to connected users.
-  if (request === 'event')
+  if (request === 'event' && connectedToOther)
     socket.send(req);
 })
 
@@ -51,10 +53,12 @@ function handleSocketMessage(message)
     case 'newUser':
       console.log("A new user joined the session");
       chrome.runtime.sendMessage({request: 'newUser'});
+      connectedToOther = true;
       break;
     case 'joinSessionSucceeded':
       console.log("Successfully joined a session");
       chrome.runtime.sendMessage({request: 'joinSessionSucceeded'});
+      connectedToOther = true;
       break;
     case 'joinSessionFailed':
       console.log("Failed to join session");
