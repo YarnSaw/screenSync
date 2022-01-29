@@ -9,7 +9,7 @@
     "default_popup": "popup.html"
   },
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["socket.io.js", "background.js"]
   }, 
   "action": {
     "default_icon":{
