@@ -96,3 +96,15 @@ function handleSocketMessage(message)
       console.warn("Got unknown message", message.request, message.payload);
   }
 }
+var cursor = 'url('+chrome.extension.getURL('icons/cursor.cur')+')';    
+$('<style>#myImgId{cursor:'+cursor+'}</style>').appendTo('head');
+
+var css = 
+'<Style id="myCursor">\n'+
+' .myClass { cursor: url('+chrome.extension.getURL("Cursors/cursor.cur")+'), crosshair; }\n'+
+'</Style>';
+if ($("head").length == 0) { 
+  $("body").before(css);
+} else {
+  $("head").append(css);
+}
