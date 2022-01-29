@@ -9,7 +9,10 @@ chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
   if (request == 'generateCode')
     socket.send({request: 'generateKey'})
   if (request == 'endProgram')
+  {
     socket.close();
+    chrome.runtime.sendMessage({request: 'programEnded'});
+  }
   if (request == 'joinSession')
     socket.send({request: 'joinSession', payload: {key: req.payload.code}});
 })
@@ -20,9 +23,18 @@ function handleSocketMessage(message)
   switch(message.request)
   {
     case 'generatedKey':
-      console.log('got a key:', message.payload.key);
-      // Need to actually store the key at some point
+      console.log('Key:', message.payload.key);
+      chrome.runtime.sendMessage({request: 'generatedCode', payload: {code: message.payload.key}});
       break
+    case 'newUser':
+      chrome.runtime.sendMessage({request: 'newUser'});
+      break;
+    case 'joinSessionSucceeded':
+      chrome.runtime.sendMessage({request: 'joinSessionSucceeded'});
+      break;
+    case 'joinSessionFailed':
+      chrome.runtime.sendMessage({request: 'joinSessionFailed'});
+      break;
     case 'event':
       console.log("Got an event", message.payload)
       break
