@@ -13,14 +13,14 @@
   }, 
   "action": {
     "default_icon":{
-      "16": "extension_toolbar_icon16.png",
-      "32": "extension_toolbar_icon32.png"
+      "16": "images/Icon_Image16.png",
+      "32": "images/Icon_Image32.png"
     }
     ,"icons":{
-      "16":"extension_icon16.png",
-      "32":"extension_icon32.png",
-      "48":"extension_icon48.png",
-      "128":"extension_icon128.png"
+      "16":"images/Icon_Image16.png",
+      "32":"images/Icon_Image32.png",
+      "48":"images/Icon_Image48.png",
+      "128":"images/Icon_Image128.png"
 
       }
     }
