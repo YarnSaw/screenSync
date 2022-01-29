@@ -25,5 +25,5 @@ chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
   if (request == 'joinSessionSucceeded')
     document.write('<p>Failed to join a session<\p>');
   if (request == 'programEnded')
-    document.write('<p>Ended the connection<\p>')
+    document.querySelector('#test').hidden = true;
 })

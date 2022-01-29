@@ -1,8 +1,13 @@
 const prodServer = 'https://yarnsawe.dev/screenSync';
 
-var socket = io.connect(prodServer || 'http://localhost:8080');
-socket.on('connect', () => {console.log("connected to server")})
-socket.on('message', handleSocketMessage);
+var socket;
+
+function startSocket()
+{
+  var socket = io.connect(prodServer || 'http://localhost:8080');
+  socket.on('connect', () => {console.log("connected to server")})
+  socket.on('message', handleSocketMessage);
+}
 
 document.onmousemove = handleMouseMove;
 function handleMouseMove(event)
@@ -13,6 +18,8 @@ function handleMouseMove(event)
 chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
   const request = req.request;
   if (request === 'generateCode')
+    if(typeof socket === 'undefined')
+      startSocket();
     socket.send({request: 'generateKey'})
   if (request === 'endProgram')
   {
