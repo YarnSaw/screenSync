@@ -20,6 +20,14 @@ chrome.runtime.onMessage.addListener(function(req, sender, sendResponse) {
     socket.send({request: 'windowInitSize', payload: req.payload})
 })
 
+chrome.tabs.onUpdated.addListener((tabId, changeInfo) =>{
+  if (changeInfo.url)
+  {
+    chrome.tabs.executeScript(null, {
+      file: "getPageEvents.js",
+    });
+  }
+})
 
 chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
   const request = req.request;
@@ -75,7 +83,6 @@ function handleSocketMessage(message)
       // To the state of the session host
       chrome.tabs.query({active: true, lastFocusedWindow: true}, (tabs) => {
         let url = tabs[0].url;
-        console.log(url)
         socket.send({request: 'event', payload: {eventName: 'newUserInfo', url}})
       });
       connectedToOther = true;

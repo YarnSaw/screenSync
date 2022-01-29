@@ -2,15 +2,25 @@
 
 function updateSize(item)
 {
-  const url = document.location.href;
-  const iframe = document.createElement('iframe');
-  iframe.width = item.windowSize.width;
-  iframe.height = item.windowSize.height;
-  iframe.src = url;
-
-  const body = document.createElement('body');
-  document.body = body;
-  body.appendChild(iframe);
+  if (document.body.childElementCount > 1 || !document.getElementById('injectedIframe'))
+  {
+    const url = document.location.href;
+    const iframe = document.createElement('iframe');
+    iframe.width = item.windowSize.width;
+    iframe.height = item.windowSize.height;
+    iframe.src = url;
+    iframe.id = "injectedIframe";
+  
+    const body = document.createElement('body');
+    document.body = body;
+    body.appendChild(iframe);
+  }
+  else
+  {
+    const iframe = document.getElementById('injectedIframe');
+    iframe.width = item.windowSize.width;
+    iframe.height = item.windowSize.height;
+  }
   
 }
 
