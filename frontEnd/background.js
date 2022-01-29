@@ -4,7 +4,7 @@ var socket;
 
 function startSocket()
 {
-  var socket = io.connect(prodServer || 'http://localhost:8080');
+  socket = io.connect(prodServer || 'http://localhost:8080');
   socket.on('connect', () => {console.log("connected to server")})
   socket.on('message', handleSocketMessage);
 }
@@ -17,17 +17,24 @@ function handleMouseMove(event)
 
 chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
   const request = req.request;
-  if (request === 'generateCode')
-    if(typeof socket === 'undefined')
+  if (request === 'generateCode'){
+    if(!socket) {
       startSocket();
+    }
     socket.send({request: 'generateKey'})
+  }
   if (request === 'endProgram')
   {
     socket.close();
+    socket = false;
     chrome.runtime.sendMessage({request: 'programEnded'});
   }
-  if (request === 'joinSession')
+  if (request === 'joinSession'){
+    if (!socket){
+      startSocket();
+    }
     socket.send({request: 'joinSession', payload: {key: req.payload.code}});
+  }
   if (request === 'event')
     socket.send(req);
 })
