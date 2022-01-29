@@ -1,0 +1,22 @@
+{
+  "name": "screensync",
+  "version": "1.0.0",
+  "description": "--------- Sync your browser across multiple users to collaborate on projects!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YarnSaw/screenSync.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YarnSaw/screenSync/issues"
+  },
+  "homepage": "https://github.com/YarnSaw/screenSync#readme",
+  "dependencies": {
+    "express": "^4.17.2"
+  }
+}
