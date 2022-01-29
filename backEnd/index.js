@@ -1,6 +1,7 @@
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
+const { ConnectionManager } = require('./connection-manager');
 const port = 8080;
 
 const app = express();
@@ -12,10 +13,8 @@ server.listen(8080, () => {
 });
 
 
-app.get('/', (requ, res) => {
+app.get('/', (req, res) => {
   res.send("Hello World");
 });
 
-io.on('connection', (socket) => {
-  console.log('got a new user connected');
-});
+const manager = new ConnectionManager(io);
