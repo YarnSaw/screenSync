@@ -22,8 +22,8 @@
       "48":"images/Icon_Image48.png",
       "128":"images/Icon_Image128.png"
 
-      }
     }
-  },
-  "permissions": ["tabs", "<all_urls>", "storage"]
+  }
+    
+  ,"permissions": ["tabs", "<all_urls>", "storage"]
 }
