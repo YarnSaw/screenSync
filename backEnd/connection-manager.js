@@ -21,20 +21,21 @@ ConnectionManager.prototype.handleSocketMessages = function ConnectionManager$Ha
   switch(message.request)
   {
     case 'generateKey':
-      console.log('got a generateKey message');
       const clientKey = this.generateRandomKey() + this.generateRandomKey();
       socket.generatedKey = clientKey;
       socket.send({request: 'generatedKey', payload: {key: clientKey}});
       break
     case 'joinSession':
       let joinedSession = false;
-      for (const otherSocket in this.sockets)
+
+      for (const otherSocket of this.sockets)
       {
-        if (socket.generatedKey === message.payload.key)
+        if (otherSocket.generatedKey === message.payload.key)
         {
           otherSocket.connectedSockets.push(socket);
           socket.connectedSockets.push(otherSocket);
           otherSocket.send({request: 'newUser'});
+          joinedSession = true;
         }
         if (joinedSession)
           socket.send({request: 'joinSessionSucceeded'});
