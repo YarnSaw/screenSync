@@ -92,7 +92,6 @@ function updateWindowSize(socket)
   const height = Math.min(...(sockets.map(skt => skt.windowSize.height)));
   const width = Math.min(...(sockets.map(skt => skt.windowSize.width)));
   sockets.forEach(skt => {
-    skt.windowSize = {width, height};
     skt.send({request: 'windowSize', payload: {width, height}});
   });
 }
