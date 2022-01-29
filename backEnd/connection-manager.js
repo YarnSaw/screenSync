@@ -45,7 +45,7 @@ ConnectionManager.prototype.handleSocketMessages = function ConnectionManager$Ha
       // Probably send response to both sides about success/fail
       break
     case 'event':
-      for (const otherSocket in socket.connectedSockets)
+      for (const otherSocket of socket.connectedSockets)
       {
         otherSocket.send(message);
       }
