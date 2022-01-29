@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+
+  "name": "ScreenSync",
+  "description": "Sync multiple browsers on different computers for collaboration!",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "permissions": ["tabs", "<all_urls>", "storage"]
+}
