@@ -47,7 +47,7 @@ chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
   if (request == 'joinSessionSuccess'){
     alert("The Sync Has Connected Successfully.");
   }
-  if (request == 'joinSessionFailed')
+  if (request == 'joinSessionFailure')
     alert("The Sync Has Failed. Please Try Again.");
   if (request == 'programEnded'){
     document.getElementById("codeMessage").innerHTML = "";

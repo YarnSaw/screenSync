@@ -22,7 +22,7 @@ function ConnectionManager(io, namespace)
 
 ConnectionManager.prototype.newConnection = function ConnectionManager$newConnection(socket)
 {
-  // Add the socket to our list of soccets, and set up message handler for it
+  // Add the socket to our list of sockets, and set up message handler for it
   this.sockets.push(socket);
   socket.connectedSockets = [];
   console.log('New Connection');
@@ -57,12 +57,13 @@ ConnectionManager.prototype.handleSocketMessages = function ConnectionManager$Ha
           otherSocket.send({request: 'newUser'}); // Let user know someone connected to them.
           joinedSession = true;
         }
-        // Let user know if they successfully joined a session or not
-        if (joinedSession)
-          socket.send({request: 'joinSessionSucceeded'});
-        else
-          socket.send({request: 'joinSessionFailed'});
       }
+      // Let user know if they successfully joined a session or not
+
+      if (joinedSession)
+        socket.send({request: 'joinSessionSucceeded'});
+      else
+        socket.send({request: 'joinSessionFailed'});
       break
     case 'event':
       // route events directly from to all users connected.
