@@ -27,13 +27,19 @@ ConnectionManager.prototype.handleSocketMessages = function ConnectionManager$Ha
       socket.send({request: 'generatedKey', payload: {key: clientKey}});
       break
     case 'joinSession':
+      let joinedSession = false;
       for (const otherSocket in this.sockets)
       {
         if (socket.generatedKey === message.payload.key)
         {
           otherSocket.connectedSockets.push(socket);
           socket.connectedSockets.push(otherSocket);
+          otherSocket.send({request: 'newUser'});
         }
+        if (joinedSession)
+          socket.send({request: 'joinSessionSucceeded'});
+        else
+          socket.send({request: 'joinSessionFailed'});
       }
       // Probably send response to both sides about success/fail
       break
