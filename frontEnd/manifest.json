@@ -16,14 +16,13 @@
       "16": "images/Icon_Image16.png",
       "32": "images/Icon_Image32.png"
     }
-    ,"icons":{
+  },
+    "icons":{
       "16":"images/Icon_Image16.png",
       "32":"images/Icon_Image32.png",
       "48":"images/Icon_Image48.png",
       "128":"images/Icon_Image128.png"
 
-    }
-  }
-    
-  ,"permissions": ["tabs", "<all_urls>", "storage"]
+      },
+  "permissions": ["tabs", "<all_urls>", "storage"]
 }
