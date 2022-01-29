@@ -42,6 +42,8 @@ ConnectionManager.prototype.handleSocketMessages = function ConnectionManager$Ha
       {
         otherSocket.send(message);
       }
-
+      break;
+    default:
+      console.warn("Got unknown message", message.request, message.payload);
   }
 }
