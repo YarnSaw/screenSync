@@ -45,10 +45,10 @@ chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
     document.getElementById('submitCode').disabled = true;
   }
   if (request == 'joinSessionSuccess'){
-    alert("The Sync Has Connected Successfully.")
+    alert("The Sync Has Connected Successfully.");
   }
   if (request == 'joinSessionFailed')
-    alert("The Sync Has Failed. Please Try Again.")
+    alert("The Sync Has Failed. Please Try Again.");
   if (request == 'programEnded'){
     document.getElementById("codeMessage").innerHTML = "";
     document.getElementById('inputCode').disabled = false;
