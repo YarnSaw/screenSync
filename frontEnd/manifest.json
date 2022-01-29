@@ -9,9 +9,7 @@
     "default_popup": "popup.html"
   },
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["background.js", "socket.io.js"]
   }, 
-  "action": {
-  },
   "permissions": ["tabs", "<all_urls>", "storage"]
 }
