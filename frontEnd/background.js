@@ -2,6 +2,7 @@ const prodServer = 'https://yarnsawe.dev/screenSync';
 
 var socket;
 var connectedToOther = false;
+var frontEndStorage = {};
 
 // Instantiate a new socket connection
 function startSocket()
@@ -48,6 +49,7 @@ function handleSocketMessage(message)
   {
     case 'generatedKey':
       console.log('Key:', message.payload.key);
+      frontEndStorage.codeKey = message.payload.key;
       chrome.runtime.sendMessage({request: 'generatedCode', payload: {code: message.payload.key}});
       break
     case 'newUser':

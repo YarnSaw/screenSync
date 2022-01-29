@@ -1,3 +1,5 @@
+var background_script = chrome.extension.getBackgroundPage();
+
 /**
  * Set up event listeners for various key events when the popup is loaded
  */
@@ -18,6 +20,10 @@ function onLoad()
   chrome.tabs.executeScript(null, {
     file: "getPageEvents.js",
   });
+  if (background_script.frontEndStorage.codeKey){
+    document.getElementById("codeMessage").innerHTML = "Your code is: "+background_script.frontEndStorage.codeKey;
+  }
+
 }
 
 // Built into browsers, when the window loads it calls the `window.onload`, if it exists.
@@ -26,12 +32,14 @@ window.onload = onLoad;
 chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
   const request = req.request;
   // Handle all the possible events from the backend to the popup that need to be displayed.
-  if (request == 'generatedCode')
-    document.querySelector('#test').hidden = false;
+  if (request == 'generatedCode'){
+    document.getElementById("codeMessage").innerHTML = "Your code is: "+background_script.frontEndStorage.codeKey;
+  }
   if (request == 'joinSessionSucceeded')
     document.write('<p>Joined a session<\p>');
   if (request == 'joinSessionSucceeded')
     document.write('<p>Failed to join a session<\p>');
-  if (request == 'programEnded')
-    document.querySelector('#test').hidden = true;
+  if (request == 'programEnded'){
+    document.getElementById("codeMessage").innerHTML = "";
+  }
 })
