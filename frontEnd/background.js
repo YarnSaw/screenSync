@@ -27,7 +27,7 @@ chrome.runtime.onMessage.addListener(function(req, sender, sendResponse) {
 chrome.tabs.onUpdated.addListener((tabId, changeInfo) =>{
   if (changeInfo.url && connectedToOther && !changingURL)
     socket.send({request: 'event', payload: {eventName: 'changeURL', url: changeInfo.url}})
-  if (changeInfo.url && connectedToOther)
+  if ((changeInfo.url || changingURL) && connectedToOther)
     updateSizeAndEvents();
   changingURL = false;
 })
@@ -59,8 +59,8 @@ chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
   }
   // Events to go to connected users.
   if (request === 'event' && connectedToOther)
-      if (!req.payload.eventName === 'scroll' || !disableScroll)
-        socket.send(req)
+    if (!req.payload.eventName === 'scroll' || !disableScroll)
+      socket.send(req)
   if (request === 'windowResize' && connectedToOther)
     socket.send(req);
   if (request === 'iframeCreated')
@@ -84,7 +84,6 @@ function handleSocketMessage(message)
     case 'newUser':
       statusTrack = "Connected";
       console.log("A new user joined the session");
-      chrome.runtime.sendMessage({request: 'newUser'});
       chrome.runtime.sendMessage({request: 'joinSessionSuccess'});
       // When a new user joins, we send them an event containing any and all relevant information for them to initialize their page
       // To the state of the session host
