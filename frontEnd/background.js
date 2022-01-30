@@ -85,6 +85,7 @@ function handleSocketMessage(message)
       statusTrack = "Connected";
       console.log("A new user joined the session");
       chrome.runtime.sendMessage({request: 'newUser'});
+      chrome.runtime.sendMessage({request: 'joinSessionSuccess'});
       // When a new user joins, we send them an event containing any and all relevant information for them to initialize their page
       // To the state of the session host
       chrome.tabs.query({active: true, lastFocusedWindow: true}, (tabs) => {
