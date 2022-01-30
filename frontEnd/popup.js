@@ -36,7 +36,6 @@ function onLoad()
   if(background_script.statusTrack == "Connected"){
     document.getElementById('generateCode').disabled = true;
   }
-
 }
 
 // Built into browsers, when the window loads it calls the `window.onload`, if it exists.
@@ -63,4 +62,9 @@ chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
     document.getElementById('submitCode').disabled = false;
   }
   document.getElementById("connectionStatus").innerHTML = "Connection: "+background_script.statusTrack;  
+  if(background_script.statusTrack == "Connected"){
+    document.getElementById('generateCode').disabled = true;
+  }else {
+    document.getElementById('generateCode').disabled = false;
+  }
 })
