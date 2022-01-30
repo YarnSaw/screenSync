@@ -7,8 +7,9 @@ function updateOtherMouse(item)
   {
     otherMouse = document.createElement('div');
     otherMouse.style.backgroundColor = 'red';
-    otherMouse.style.width = '15px';
-    otherMouse.style.height = '15px';
+    otherMouse.style.borderRadius = '50%';
+    otherMouse.style.width = '30px';
+    otherMouse.style.height = '30px';
     otherMouse.style.zIndex = '10';
     otherMouse.style.position = 'absolute';
     otherMouse.id = 'otherUserMouse';
