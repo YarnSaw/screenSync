@@ -30,7 +30,7 @@ function onLoad()
   if (background_script.urlPreference){
     document.getElementById("urlPermissions").checked = true;
   }
-  document.getElementById("connectionStatus").innerHTML = "Connection: "+background_script.statusTrack;  
+  document.getElementById("connectionStatus").innerHTML = "Sync Status: "+background_script.statusTrack;  
 
   if(background_script.statusTrack == "Connected"){
     document.getElementById('generateCode').disabled = true;
@@ -60,7 +60,7 @@ chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
     document.getElementById('inputCode').disabled = false;
     document.getElementById('submitCode').disabled = false;
   }
-  document.getElementById("connectionStatus").innerHTML = "Connection: "+background_script.statusTrack;  
+  document.getElementById("connectionStatus").innerHTML = "Sync Status: "+background_script.statusTrack;  
   if(background_script.statusTrack == "Connected"){
     document.getElementById('generateCode').disabled = true;
   }else {
