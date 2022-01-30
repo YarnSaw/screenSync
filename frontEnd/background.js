@@ -164,22 +164,22 @@ function updateSizeAndEvents()
   // access to things that we don't here, for example mouse events.
   chrome.tabs.executeScript(null, { file: "updateScreenSize.js", });
 }
-var pointerX = -1;
-var pointerY = -1;
-document.onmousemove = function(event) {
-	pointerX = event.pageX;
-	pointerY = event.pageY;
-}
-setInterval(pointerCheck, 1000);
-function pointerCheck() {
-	console.log('Cursor at: '+pointerX+', '+pointerY);
-}
-mousePointerDouble ;{
-  position: absolute;
-  width: 12 ;px;
-  height: 19 ;px;
-  background: url('chrome-extension://__MSG_@@extension_id__/images/cursor.png');
-  // do not receive mouse events, otherwise it would block all mouse clicks
-  pointer-events; none;
-  z-index; 999999;
-}
+// var pointerX = -1;
+// var pointerY = -1;
+// document.onmousemove = function(event) {
+// 	pointerX = event.pageX;
+// 	pointerY = event.pageY;
+// }
+// setInterval(pointerCheck, 1000);
+// function pointerCheck() {
+// 	console.log('Cursor at: '+pointerX+', '+pointerY);
+// }
+// mousePointerDouble ;{
+//   position: absolute;
+//   width: 12 ;px;
+//   height: 19 ;px;
+//   background: url('chrome-extension://__MSG_@@extension_id__/images/cursor.png');
+//   // do not receive mouse events, otherwise it would block all mouse clicks
+//   pointer-events; none;
+//   z-index; 999999;
+// }
