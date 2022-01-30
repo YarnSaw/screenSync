@@ -16,6 +16,11 @@ function onLoad()
   });
   document.querySelector('#urlPermissions').addEventListener('change', () => chrome.runtime.sendMessage({request : "declareURLpreference"}));
 
+  document.getElementById("inputCode").addEventListener("keyup", function(e) {
+        if (e.code == 'Enter') {
+            document.getElementById("submitCode").click();
+        }
+    });
   // Begin executing the getPageEvents.js. Due to how this script is being executed
   // (using chrome.tabs.executeScript), it is executed within the context of the web
   // page that the user is currently on. Because it is being executed there, it has
