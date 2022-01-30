@@ -81,6 +81,17 @@ ConnectionManager.prototype.handleSocketMessages = function ConnectionManager$Ha
           updateWindowSize(socket);
       } 
       break;
+    case 'close':
+      if (socket.connectedSockets.length)
+      {
+        socket.connectedSockets.every((skt) => {
+          skt.send({request: 'closed'});
+          this.sockets.splice(this.sockets.indexOf(skt), 1);
+        });
+      }
+      socket.send({request: 'closed'});
+      this.sockets.splice(this.sockets.indexOf(socket), 1);
+      break;
     default:
       console.warn("Got unknown message", message.request, message.payload);
   }

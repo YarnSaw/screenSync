@@ -48,13 +48,7 @@ chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
   if (request === 'endProgram')
   {
     if (socket)
-      socket.close();
-    socket = false;
-    connectedToOther = false;
-    chrome.runtime.sendMessage({request: 'programEnded'});
-    delete frontEndStorage.codeKey 
-    statusTrack = "No Connection";
-    console.log(statusTrack)
+      socket.send({request: 'close'});
   }
   // Join someone else's session. Create a new socketio connection if non exist.
   if (request === 'joinSession'){
@@ -114,6 +108,17 @@ function handleSocketMessage(message)
     case 'windowSize':
       chrome.storage.local.set({ windowSize: message.payload });
       updateSizeAndEvents();
+      break;
+    case 'closed':
+      socket.close();
+      socket = false;
+      connectedToOther = false;
+      chrome.runtime.sendMessage({request: 'programEnded'});
+      delete frontEndStorage.codeKey 
+      statusTrack = "No Connection";
+      chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+        chrome.tabs.reload(tabs[0].id);
+      });
       break;
     case 'event':
       const ev = message.payload;
