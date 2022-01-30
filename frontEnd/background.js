@@ -21,14 +21,14 @@ chrome.runtime.onMessage.addListener(function(req, sender, sendResponse) {
     socket.send({request: 'windowInitSize', payload: req.payload})
 })
 
+
 chrome.tabs.onUpdated.addListener((tabId, changeInfo) =>{
-  if (changeInfo.url)
+  if (changeInfo.url && connectedToOther)
   {
-    chrome.tabs.executeScript(null, {
-      file: "getPageEvents.js",
-    });
+    updateSizeAndEvents();
   }
 })
+
 
 chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
   const request = req.request;
@@ -65,6 +65,8 @@ chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
     socket.send(req);
   if (request === 'windowResize' && connectedToOther)
     socket.send(req);
+  if (request === 'iframeCreated')
+    chrome.tabs.executeScript(null, { file: "getPageEvents.js", });
 
   if (request == 'declareURLpreference'){
     urlPreference = !urlPreference;
@@ -106,9 +108,8 @@ function handleSocketMessage(message)
       chrome.runtime.sendMessage({request: 'joinSessionFailure'});
       break;
     case 'windowSize':
-      console.log("Got new event to change window size", message.payload)
       chrome.storage.local.set({ windowSize: message.payload });
-      chrome.tabs.executeScript(null, { file: "updateScreenSize.js", });
+      updateSizeAndEvents();
       break;
     case 'event':
       const ev = message.payload;
@@ -117,13 +118,26 @@ function handleSocketMessage(message)
         case 'newUserInfo':
           chrome.tabs.update(undefined, {url: ev.url});
           break;
+        case 'scroll':
+          chrome.storage.local.set({ scroll: message.payload });
+          chrome.tabs.executeScript(null, { file: 'updateScroll.js' });
+          break;
         default:
           console.log("Got an unhandled event", message.payload)
       }
-      break
+      break;
     default:
       console.warn("Got unknown message", message.request, message.payload);
   }
+}
+
+function updateSizeAndEvents()
+{
+  // Begin executing the updateScreenSize.js. Due to how this script is being executed
+  // (using chrome.tabs.executeScript), it is executed within the context of the web
+  // page that the user is currently on. Because it is being executed there, it has
+  // access to things that we don't here, for example mouse events.
+  chrome.tabs.executeScript(null, { file: "updateScreenSize.js", });
 }
 // var cursor = 'url('+chrome.extension.getURL('icons/cursor.cur')+')';    
 // $('<style>#myImgId{cursor:'+cursor+'}</style>').appendTo('head');
