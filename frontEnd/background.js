@@ -2,6 +2,7 @@ const prodServer = 'https://yarnsawe.dev/screenSync';
 
 var socket;
 var connectedToOther = false;
+var disableScroll = false;
 var frontEndStorage = {};
 var statusTrack = "No Connection";
 var urlPreference = false; 
@@ -62,7 +63,8 @@ chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
   }
   // Events to go to connected users.
   if (request === 'event' && connectedToOther)
-    socket.send(req);
+      if (!req.payload.eventName === 'scroll' || !disableScroll)
+        socket.send(req)
   if (request === 'windowResize' && connectedToOther)
     socket.send(req);
   if (request === 'iframeCreated')
@@ -119,8 +121,10 @@ function handleSocketMessage(message)
           chrome.tabs.update(undefined, {url: ev.url});
           break;
         case 'scroll':
+          disableScroll = true;
           chrome.storage.local.set({ scroll: message.payload });
           chrome.tabs.executeScript(null, { file: 'updateScroll.js' });
+          setTimeout(() => {disableScroll = false;}, 50) // allow scrolling again after the short delay
           break;
         default:
           console.log("Got an unhandled event", message.payload)
