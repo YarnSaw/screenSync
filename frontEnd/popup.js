@@ -21,13 +21,7 @@ function onLoad()
             document.getElementById("submitCode").click();
         }
     });
-  // Begin executing the getPageEvents.js. Due to how this script is being executed
-  // (using chrome.tabs.executeScript), it is executed within the context of the web
-  // page that the user is currently on. Because it is being executed there, it has
-  // access to things that we don't here, for example mouse events.
-  chrome.tabs.executeScript(null, {
-    file: "getPageEvents.js",
-  });
+
   if (background_script.frontEndStorage.codeKey){
     document.getElementById("codeMessage").innerHTML = "Your code is: "+background_script.frontEndStorage.codeKey;
     document.getElementById('inputCode').disabled = true;

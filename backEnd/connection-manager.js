@@ -38,7 +38,7 @@ ConnectionManager.prototype.handleSocketMessages = function ConnectionManager$Ha
       // User has asked us to create a key for them. Generate it randomly, and save it to their
       // socket so if any other user tries to join a session with the key, we can link their sockets.
       // Then return the key to the user.
-      const clientKey = this.generateRandomKey() + this.generateRandomKey();
+      const clientKey = this.generateRandomKey();// + this.generateRandomKey();
       socket.generatedKey = clientKey;
       socket.send({request: 'generatedKey', payload: {key: clientKey}});
       break

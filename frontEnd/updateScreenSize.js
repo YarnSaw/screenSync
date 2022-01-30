@@ -14,6 +14,7 @@ function updateSize(item)
     const body = document.createElement('body');
     document.body = body;
     body.appendChild(iframe);
+    chrome.runtime.sendMessage({request: 'iframeCreated'});
   }
   else
   {
