@@ -30,8 +30,7 @@ function onLoad()
   if (background_script.urlPreference){
     document.getElementById("urlPermissions").checked = true;
   }
-  document.getElementById("connectionStatus").innerHTML = "Connection: "+background_script.frontEndStorage.status;  
-
+  document.getElementById("connectionStatus").innerHTML = "Connection: "+background_script.statusTrack;  
 }
 
 // Built into browsers, when the window loads it calls the `window.onload`, if it exists.
@@ -55,4 +54,5 @@ chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
     document.getElementById('inputCode').disabled = false;
     document.getElementById('submitCode').disabled = false;
   }
+  document.getElementById("connectionStatus").innerHTML = "Connection: "+background_script.statusTrack;  
 })
