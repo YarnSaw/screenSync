@@ -46,6 +46,8 @@ chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
     document.getElementById('submitCode').disabled = true;
   }
   if (request == 'joinSessionSuccess'){
+    document.getElementById('inputCode').disabled = true;
+    document.getElementById('submitCode').disabled = true;
     alert("The Sync Has Connected Successfully.");
   }
   if (request == 'joinSessionFailure')

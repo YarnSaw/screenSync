@@ -82,6 +82,7 @@ function handleSocketMessage(message)
       chrome.runtime.sendMessage({request: 'generatedCode', payload: {code: message.payload.key}});
       break
     case 'newUser':
+      statusTrack = "Connected";
       console.log("A new user joined the session");
       chrome.runtime.sendMessage({request: 'newUser'});
       // When a new user joins, we send them an event containing any and all relevant information for them to initialize their page
