@@ -3,6 +3,7 @@ const prodServer = 'https://yarnsawe.dev/screenSync';
 var socket;
 var connectedToOther = false;
 var disableScroll = false;
+var changingURL = false;
 var frontEndStorage = {};
 var statusTrack = "No Connection";
 var urlPreference = false; 
@@ -24,10 +25,11 @@ chrome.runtime.onMessage.addListener(function(req, sender, sendResponse) {
 
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo) =>{
+  if (changeInfo.url && connectedToOther && !changingURL)
+    socket.send({request: 'event', payload: {eventName: 'changeURL', url: changeInfo.url}})
   if (changeInfo.url && connectedToOther)
-  {
     updateSizeAndEvents();
-  }
+  changingURL = false;
 })
 
 
@@ -118,6 +120,7 @@ function handleSocketMessage(message)
       switch(ev.eventName)
       {
         case 'newUserInfo':
+          changingURL = true;
           chrome.tabs.update(undefined, {url: ev.url});
           break;
         case 'scroll':
@@ -125,6 +128,24 @@ function handleSocketMessage(message)
           chrome.storage.local.set({ scroll: message.payload });
           chrome.tabs.executeScript(null, { file: 'updateScroll.js' });
           setTimeout(() => {disableScroll = false;}, 50) // allow scrolling again after the short delay
+          break;
+        case 'changeURL':
+          if (urlPreference)
+          {
+            changingURL = true;
+            chrome.tabs.update(undefined, {url: ev.url});
+          }
+          else
+          {
+            const change = confirm(`The other participant changed URL to ${ev.url}. Click OK to follow, or cancel to leave the session.`);
+            if (change)
+            {
+              changingURL = true;
+              chrome.tabs.update(undefined, {url: ev.url});
+            }
+            else
+              chrome.runtime.sendMessage({request: 'endProgram'});
+          }
           break;
         default:
           console.log("Got an unhandled event", message.payload)
