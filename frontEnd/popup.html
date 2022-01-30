@@ -6,9 +6,9 @@
     <link rel="stylesheet" href="styles.css"> 
     <script src="popup.js"></script>
   </head>
-  <body>
+  <body style="width: 300px">
     <center><img src="images/Title_Icon4.png"id="ScreenSync" style="width: 200px; height: 150px"></center>
-    <p>Better than Screen SharingASDFGHJKJHGFDSDFGHJKJHYTREWERTYUIUYTRE</p>
+    <p>Better than Screen Sharing</p>
     <center><img src="images/Icon_Image128.png"id="ScreenSync"></center>
     <style>
       .myDiv {
@@ -16,7 +16,7 @@
         width: 100%;
         background-color: powderblue;
         border-radius: 25px;
-        border: 2px outset rgb(0, 0, 0);
+        border: 1.5px outset rgb(0, 0, 0);
         text-align: center;
       }
       </style>
@@ -24,17 +24,29 @@
         <p id="connectionStatus" style="margin: 0; padding: 5px 0px">Sync Status: Whatevs</p>
       </div>
     <p></p>
-    <button id="generateCode">Press To Generate Sync Code</button>
-    <p id="test" hidden>New code</p>
+    <center><button id="generateCode" style="height: 30px; width: 225px">Press To Generate Sync Code</button></center>
     <p id="codeMessage"></p>
     <p></p>
-    <label for="inputCode">Please type in the Screen Sync Activation Code:</label>
-    <input id="inputCode" type="text" name="text">
-    <button id="submitCode">Submit</button>
+    <style>
+    .inputDiv {
+      height: 75px;
+      width: 100%;
+      background-color: rgba(102, 153, 204, 0.247);
+      border: 1.5px outset rgba(176, 240, 248, 0.74);
+      text-align: center;
+    }
+    </style>
+    <div class="inputDiv">
+      <p></p>
+      <label for="inputCode">Please Type In The Screen Sync Activation Code:</label>
+      <p></p>
+      <input id="inputCode" type="text" name="text">
+      <button id="submitCode">Submit</button>  
+    </div>
     <p></p>
-    <button id="syncEnd">End Screen Syncing</button>
+    <center><button id="syncEnd" style="height: 30px; width: 225px">End Screen Syncing</button></center>
     <p></p>
-      <div>
+      <div style="text-align: right">
         <label for="urlPermissions">Automatic URL Changes</label>
         <input type="checkbox" id="urlPermissions" name="UrlP">
       </div>
