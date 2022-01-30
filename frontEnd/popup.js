@@ -12,6 +12,7 @@ function onLoad()
   document.querySelector('#submitCode').addEventListener('click', () => {
     const code = document.querySelector('#inputCode').value;
     chrome.runtime.sendMessage({request: 'joinSession', payload: {code}});
+    document.getElementById("inputCode").value = '';
   });
   document.querySelector('#urlPermissions').addEventListener('change', () => chrome.runtime.sendMessage({request : "declareURLpreference"}));
 

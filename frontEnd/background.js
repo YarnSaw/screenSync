@@ -52,7 +52,6 @@ chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
     delete frontEndStorage.codeKey 
     statusTrack = "No Connection";
     console.log(statusTrack)
-
   }
   // Join someone else's session. Create a new socketio connection if non exist.
   if (request === 'joinSession'){
@@ -60,8 +59,6 @@ chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
       startSocket();
     }
     socket.send({request: 'joinSession', payload: {key: req.payload.code}});
-    statusTrack = "Connected";
-    console.log(statusTrack)
   }
   // Events to go to connected users.
   if (request === 'event' && connectedToOther)
@@ -99,6 +96,8 @@ function handleSocketMessage(message)
       console.log("Successfully joined a session");
       chrome.runtime.sendMessage({request: 'joinSessionSuccess'});
       connectedToOther = true;
+      statusTrack = "Connected";
+      console.log(statusTrack);
       break;
     case 'joinSessionFailed':
       console.log("Failed to join session");
