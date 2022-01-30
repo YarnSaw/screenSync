@@ -1,12 +1,7 @@
 function updateScroll(item)
 {
-  if (document.body.childElementCount > 1 || !document.getElementById('injectedIframe'))
-    window.scrollTo(item.scroll.xOffset, item.scroll.yOffset);
-  else
-  {
-    const iframe = document.getElementById('injectedIframe');
-    iframe.contentWindow.scrollTo(item.scroll.xOffset, item.scroll.yOffset);
-  }
+  const iframe = document.getElementById('injectedIframe');
+  iframe.contentWindow.scrollTo(item.scroll.xOffset, item.scroll.yOffset);
 }
 
 try

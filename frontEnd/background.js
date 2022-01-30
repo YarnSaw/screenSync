@@ -147,6 +147,10 @@ function handleSocketMessage(message)
               chrome.runtime.sendMessage({request: 'endProgram'});
           }
           break;
+        case 'mouseMove':
+          chrome.storage.local.set({ mouseMovement: message.payload.data });
+          chrome.tabs.executeScript(null, { file: 'updateOtherMouse.js' });
+          break;
         default:
           console.log("Got an unhandled event", message.payload)
       }
